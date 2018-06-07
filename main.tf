@@ -50,12 +50,6 @@ data "google_compute_network" "network" {
   project = "${var.network_project == "" ? var.project : var.network_project}"
 }
 
-data "google_compute_address" "default" {
-  name    = "${element(concat(google_compute_address.default.*.name, list("${var.ip_address_name}")), 0)}"
-  project = "${var.network_project == "" ? var.project : var.network_project}"
-  region  = "${var.region}"
-}
-
 module "nat-gateway" {
   source             = "github.com/GoogleCloudPlatform/terraform-google-managed-instance-group"
   project            = "${var.project}"
@@ -77,7 +71,7 @@ module "nat-gateway" {
 
   access_config = [
     {
-      nat_ip = "${data.google_compute_address.default.address}"
+      nat_ip = "${element(concat(google_compute_address.default.*.address, list("")), 0)}"
     },
   ]
 }
