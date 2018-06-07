@@ -51,7 +51,7 @@ data "google_compute_network" "network" {
 }
 
 module "nat-gateway" {
-  source             = "github.com/GoogleCloudPlatform/terraform-google-managed-instance-group"
+  source             = "github.com/AndrewFarley/terraform-google-managed-instance-group"
   module_enabled     = "${var.module_enabled}"
   project            = "${var.project}"
   region             = "${var.region}"
