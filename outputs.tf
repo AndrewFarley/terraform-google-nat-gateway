@@ -33,3 +33,13 @@ output external_ip {
   description = "The external IP address of the NAT gateway instance."
   value       = "${element(concat(google_compute_address.default.*.address, list("")), 0)}"
 }
+
+output routing_tag_regional {
+  description = "The tag that any other instance will need to have in order to get the regional routing rule"
+  value       = "${var.name}nat-${var.region}"
+}
+
+output routing_tag_zonal {
+  description = "The tag that any other instance will need to have in order to get the zonal routing rule"
+  value       = "${var.name}nat-${var.zone == "" ? lookup(var.region_params["${var.region}"], "zone") : var.zone}"
+}
